@@ -3,7 +3,7 @@ library(shiny)
 
 shinyServer(function(input, output) {
 
-  dfData <- read.csv("ProcessedData.csv")
+  dfData <- read.csv("CleanData.csv")
   
   output$pltDateTime <- renderPlot({
     
