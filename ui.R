@@ -1,5 +1,9 @@
 
 library(shiny)
+library(dplyr)
+library(ggplot2)
+
+source("MakeWidgets.R")
 
 shinyUI(
   pageWithSidebar(
@@ -8,9 +12,13 @@ shinyUI(
     
     sidebarPanel(
       
-      checkboxGroupInput("chkDriverAlcohol", label = h3("Driver Alcohol"), 
-                         choices = list("Missing", "No", "Yes"),
-                         selected = c("Missing", "No", "Yes"))
+        checkboxGroupInput("chkDriverAlcohol", label = h4("Driver Alcohol"), 
+                         choices = as.list(strDriverAlcohol),
+                         selected = strDriverAlcohol)
+      
+      , checkboxGroupInput("chkBikeInjury", label = h4("Bike Injury"), 
+                         choices = as.list(strBikeInjury),
+                         selected = strBikeInjury)
     ),
     
     mainPanel(
