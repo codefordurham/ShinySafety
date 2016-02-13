@@ -3,15 +3,30 @@ library(ggplot2)
 
 dfData <- readr::read_csv("CleanData.csv")
 
-injuryGender <- table(dfData$BikeInjury, dfData$BikeGender)
-injuryGender
+dfCA <- dfData %>% 
+  group_by(BikeInjury, Locality) %>% 
+  summarise(n = n()) %>% 
+  tidyr::spread(BikeInjury, n)
+
+rownames(dfCA) <- dfCA[[1]]
+dfCA[1] <- NULL
+
+# dfInjuryGender <- dfData %>% 
+#   filter(BikeGender != "")
+# 
+# dfInjuryGender <- table(dfInjuryGender$BikeInjury, dfInjuryGender$BikeGender)
+
+caInjuryGender <- ca(dfCA, graph = FALSE)
+caInjuryGender
+plot(caInjuryGender)
 
 cMat <- injuryGender / sum(injuryGender)
 cMat
 
 library(ca)
 data("smoke")
-ca(smoke)
+caSmoke <- ca(smoke)
+plot(caSmoke)
 
 # dfSmall <- dfData %>% 
 #   select(BikeInjury, BikeGender, Locality, Light_Cond, Rd_Class)
