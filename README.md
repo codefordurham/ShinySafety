@@ -1,0 +1,1 @@
+This is a companion to the main repo, https://github.com/BikeSafety/BikeSafety. We're using Shiny to create a lightweight app for prototyping visualizations and analytics. The working Shiny app may be found here: https://pirategrunt.shinyapps.io/ShinySafety/ .
