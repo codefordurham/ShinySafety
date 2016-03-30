@@ -22,7 +22,11 @@ shinyUI(
     ),
     
     mainPanel(
-      plotOutput("pltDateTime")
+      plotOutput("pltDateTime"
+                 , dblclick = "pltDateTime_dblclick"
+                 , brush = brushOpts(id = "pltDateTime_brush"
+                                     , resetOnNew = TRUE)
+                 )
     )
   
   ) # End Page
