@@ -1,5 +1,30 @@
 library(dplyr)
-dfData <- readr::read_csv("CleanData.csv")
+library(ggfortify)
+
+GetMDS <- function(df){
+  
+  matMDS <- t(as.matrix(df))
+  
+  matCovar <- matMDS %*% t(matMDS)
+  matDist <- dist(matCovar)
+  
+  mds <- cmdscale(matDist, eig = TRUE)
+  
+  mds
+}
+
+PlotMDS <- function(mdsObj){
+  
+  plot(mdsObj, type = 'n')
+  text(mdsObj, rownames(matMDS))
+  
+}
+
+#=========
+# load the data if needed
+if (is.null(dfData)){
+  dfData <- readr::read_csv("CleanData.csv")
+}
 
 dfMDS <- dfData %>% 
   mutate(Fatality = ifelse(BikeInjury == "K: Killed", 1, -1)
@@ -11,17 +36,7 @@ dfMDS <- dfData %>%
          , DriverAlcohol = ifelse(DriverAlcohol == "Yes", 1, -1)) %>% 
   select(Fatality, NoInjury, BikeAlcohol, FacingTraffic, Intersection, Residential, DriverAlcohol)
 
-PlotMDS <- function(df){
-  matMDS <- t(as.matrix(df))
-  
-  matCovar <- matMDS %*% t(matMDS)
-  matDist <- dist(matCovar)
-  
-  mdsAccident <- cmdscale(matDist)
-  plot(mdsAccident, type = 'n')
-  text(mdsAccident, rownames(matMDS))
-  
-}
+strMDS <- names(dfMDS)
 
-dfMDS %>% PlotMDS()
-dfMDS %>% select(-Intersection, -Residential) %>% PlotMDS
+# dfMDS %>% PlotMDS()
+# dfMDS %>% select(-Intersection, -Residential) %>% PlotMDS

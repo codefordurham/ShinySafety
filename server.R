@@ -25,11 +25,22 @@ shinyServer(function(input, output) {
     if (!is.null(brush)) {
       ranges$x <- c(brush$xmin, brush$xmax)
       ranges$y <- c(brush$ymin, brush$ymax)
-      print(ranges$x)
+      ranges$x <- as.Date(ranges$x, origin = "1970-01-01")
+      ranges$y <- as.POSIXct(ranges$y, origin = "1970-01-01")
     } else {
       ranges$x <- NULL
       ranges$y <- NULL
     }
+  })
+  
+  output$pltMDS <- renderPlot({
+    selectedMDS <- intersect(names(dfMDS), input$chkMDS)
+    # selectedMDS <- intersect(names(dfMDS), strMDS)
+    print(selectedMDS)
+    dfPlotMDS <- dfMDS[, selectedMDS]
+    myMds <- GetMDS(dfPlotMDS)
+    autoplot(myMds, label = TRUE)
+    
   })
   
 })
